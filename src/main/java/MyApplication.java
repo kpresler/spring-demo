@@ -14,6 +14,13 @@ public class MyApplication {
         return "Hello World!";
     }
 	
+	@GetMapping("/users/{user}")
+	public String getUser(@PathVariable String user){
+	    return String.format("Hello, %s", user);	
+	}
+	
+	
+
     public static void main(String[] args) {
         SpringApplication.run(MyApplication.class, args);
     }
