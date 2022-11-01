@@ -13,17 +13,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import myapp.container.MyPlatformDependentService;
+
 @RestController
 @SpringBootApplication
 public class MyApplication {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private MyPlatformDependentService pds;
 
     @RequestMapping("/")
     String home() {
         return "Hello World!";
     }
+	
+	@GetMapping("/platform-message")
+	public String getPlatformMessage() {
+		return pds.getPlatformMessage();
+	}
 	
 	@GetMapping("/users/{user}")
 	public String getUser(@PathVariable String user){
