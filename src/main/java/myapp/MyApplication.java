@@ -1,5 +1,10 @@
+package myapp;
+
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@EnableAutoConfiguration
+@SpringBootApplication
 public class MyApplication {
+	
+	@Autowired
+	private OrderService orderService;
 
     @RequestMapping("/")
     String home() {
@@ -23,22 +31,19 @@ public class MyApplication {
 	}
 	
 	@GetMapping("/orders")
-	public String getOrders(@RequestParam(required = false) Boolean shipped, @RequestParam(required=false) String after){
-		String response = "You are requesting all ";
-
-		response += null == shipped ? "" : (shipped ? "shipped " : "unshipped ");
-		
-		response += "orders ";
-
-		response += (null == after ? "" : ("that were ordered after " + after));
-		
-		return response;
+	public List<Order> getOrders(@RequestParam(required = false) String buyer){
+		if (null != buyer){
+			return orderService.findByBuyer(buyer);
+		}	
+		return orderService.findAll();
 		
 	}
 	
+	
 	@PostMapping("/orders")
-	public String createOrder(@RequestBody String newOrder){
-		return String.format("Your new order is %s", newOrder);
+	public String createOrder(@RequestBody Order newOrder){
+		orderService.save(newOrder);
+		return "OK";
 	}
 	
     public static void main(String[] args) {
