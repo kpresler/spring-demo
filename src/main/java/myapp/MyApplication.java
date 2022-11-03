@@ -24,16 +24,17 @@ public class MyApplication {
 	
 	@Autowired
 	private MyPlatformDependentService pds;
-
-    @RequestMapping("/")
-    String home() {
-        return "Hello World!";
-    }
 	
 	@GetMapping("/platform-message")
 	public String getPlatformMessage() {
 		return pds.getPlatformMessage();
 	}
+
+    @RequestMapping("/")
+    String home() {
+        return "Hello World!";
+    }
+
 	
 	@GetMapping("/users/{user}")
 	public String getUser(@PathVariable String user){

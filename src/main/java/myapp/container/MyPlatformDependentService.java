@@ -1,7 +1,5 @@
 package myapp.container;
 
-import org.springframework.stereotype.Component;
-
 public class MyPlatformDependentService {
 
 	public String getPlatformMessage(){
